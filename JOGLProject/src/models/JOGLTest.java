@@ -4,6 +4,8 @@ import static com.jogamp.opengl.GL.GL_COLOR_BUFFER_BIT;
 import static com.jogamp.opengl.GL.GL_DEPTH_BUFFER_BIT;
 import static com.jogamp.opengl.GL.GL_TRIANGLES;
 import com.jogamp.opengl.GL2;
+import static com.jogamp.opengl.GL2.GL_POLYGON;
+import static com.jogamp.opengl.GL2ES3.GL_QUADS;
 import com.jogamp.opengl.GLAutoDrawable;
 import com.jogamp.opengl.GLCapabilities;
 import com.jogamp.opengl.GLEventListener;
@@ -140,8 +142,7 @@ public class JOGLTest extends JFrame implements GLEventListener, KeyListener {
         gl.glLightfv(GL_LIGHT1, GL_AMBIENT, FloatBuffer.wrap(ambientLight));
         gl.glLightfv(GL_LIGHT0, GL_POSITION, FloatBuffer.wrap(lightPosition));
 
-        glu.gluLookAt(0.0, 0.0, 5.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
-
+        // glu.gluLookAt(0.0, 0.0, 5.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
         gl.glTranslatef(0, 0, zoom);
 
         // ----- Render the Pyramid -----
@@ -210,7 +211,29 @@ public class JOGLTest extends JFrame implements GLEventListener, KeyListener {
 
         glu.gluSphere(sphere, 1.0f, 100, 100);    // glu.gluSphere(quadricObj,radius,slices,stacks);
         glu.gluDeleteQuadric(sphere);
+        gl.glLoadIdentity(); // reset the current model-view matrix
+        
+        gl.glColor3f(1.0f, 1.0f, 0.0f);
+        gl.glBegin(GL_POLYGON);
+        gl.glVertex3f(-0.5f, -0.5f, -0.5f);       // P1
+        gl.glVertex3f(-0.5f, 0.5f, -0.5f);       // P2
+        gl.glVertex3f(0.5f, 0.5f, -0.5f);       // P3
+        gl.glVertex3f(0.5f, -0.5f, -0.5f);       // P4
+        gl.glEnd();
+        //DRAW GROUND GRID
+        /*for (int i = 0; i < 10; i++) {
+            for (int j = 0; j < 10; j++) {
 
+            }
+        }*/
+    }
+
+    /**
+     * DRAW A SINGLE GRID GIVEN X AND Z CORDINATES
+     *
+     */
+    public void drawGrid(float x, float z, GL2 gl) {
+        gl.glBegin(GL_QUADS);
     }
 
     @Override
